@@ -7,23 +7,32 @@ const Ejercicio1 = () =>{
      const [sideB, setSideB] = useState(0);
      const [sideC, setSideC] = useState(0);
      const [triangles, setTriangles] = useState([]);
+
      const triangle = () =>{
-         if (sideA <= 0 || sideB <= 0 || sideC <= 0){
+        if (sideA <= 0 || sideB <= 0 || sideC <= 0){
              console.log("Eso no es un triangulo man")
              
-                }else
-                if (sideA != sideB && sideB != sideC){
-                    console.log("Tu triangulo es escaleno")
-                }else if (sideA == sideB && sideB == sideC){
-                    console.log("Tu triangulo es equilatero")
-                }else if (sideA == sideB || sideB == sideC || sideA == sideC){
-                    console.log("Tu triangulo es isoceles")
-                }       
+                }else{
+                    if (sideA == sideB && sideB == sideC){
+                        console.log("Tu triangulo es equilatero")
+                        setTriangles(triangles.concat('Equilatero'))
+                        console.log(triangles)
+                    }else if (sideA == sideB || sideB == sideC || sideA == sideC){
+                        console.log("Tu triangulo es isoceles")
+                        setTriangles(triangles.concat('Isoceles'))
+                        console.log(triangles)
+                    }else{
+                            console.log("Tu triangulo es escaleno")
+                            setTriangles(triangles.concat('Escaleno'))
+                            console.log(triangles)  
+                    }   
+                    
+                }
             }
             
-    const render = (triangle) =>{
-               
-            }
+    
+
+
             return (
                 <>
             <form>
@@ -32,7 +41,15 @@ const Ejercicio1 = () =>{
             <input name="sideC" value={sideC} onChange={(e) => setSideC(e.target.value)}  type="number" placeholder="side C"/>
             <button type="button" onClick={triangle} >Calcular</button>
             <div id="message">
-                <p>Pe</p>
+                {
+                    triangles.map((value, index)=>{
+                        return (
+                            <p key={index}>
+                                {value}
+                            </p>
+                        )
+                    })
+                }
             </div>
             </form>
         </>
