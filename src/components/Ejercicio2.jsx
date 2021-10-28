@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import Task from "./domain/task";
+import { Task } from "./domain/task";
 
 const Ejercicio2 = () =>{
     
-    const [task, setTask] = useState([]);
-    const [priority, setPriority] = useState(0);
-    const [sideB, setSideB] = useState(0);
+    const [task, setTask] = useState('');
+    const [priority, setPriority] = useState('');
+    const [taskList, setTasklist] =useState([]);
+
+    const addTask = () =>{
+        setTasklist(taskList.concat(new Task(task, priority)))
+        console.log(taskList)
+    }
     
            return (
             <>
@@ -13,22 +18,35 @@ const Ejercicio2 = () =>{
 
                 <form>
                 <input
+                    value={task}
+                    onChange={(e) => setTask(e.target.value)}
                     id="tarea"
                     type="text"
                     name="tarea"
                     placeholder="Descripción de la tarea"
                 />
-                <select name="prioridad" id="prioridad">
+                <select name="prioridad" id="prioridad" value={priority} onChange={(e) => setPriority(e.target.value)}>
                     <option disabled defaultValue>Prioridad</option>
                     <option value="prioridad-baja">baja</option>
                     <option value="prioridad-media">media</option>
                     <option value="prioridad-alta">alta</option>
                 </select>
-                <button id="agregar">Agregar!</button>
+                <button id="agregar" onClick={addTask} type="button">Agregar!</button>
                 </form>
                 <span id="error-message"> </span>
                 <h3>Tareas</h3>
-                <ul id="lista-tareas">
+                <ul                    
+                    id="lista-tareas"
+                >
+                    {
+                        taskList.map((value, index)=>{
+                            return (
+                                <li key={index}>
+                                    {value.task}
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
 
                 <p>
