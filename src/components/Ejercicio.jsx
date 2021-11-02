@@ -12,26 +12,37 @@ const Ejercicio1 = () =>{
              console.log("Eso no es un triangulo man")
              
                 }else{
+                    let type = ''
                     if (sideA == sideB && sideB == sideC){
-                        console.log("Tu triangulo es equilatero")
-                        setTriangles(triangles.concat('Equilatero'))
-                        console.log(triangles)
+                        type= 'Equilatero'
                     }else if (sideA == sideB || sideB == sideC || sideA == sideC){
-                        console.log("Tu triangulo es isoceles")
-                        setTriangles(triangles.concat('Isoceles'))
-                        console.log(triangles)
+                        type= 'Isoceles'
                     }else{
-                            console.log("Tu triangulo es escaleno")
-                            setTriangles(triangles.concat('Escaleno'))
-                            console.log(triangles)  
+                        type= 'Escaleno'
                     }   
                     
+                    fetch('http://localhost:4000/triangulos', {
+                        method:"POST",
+                        headers: {
+                            'Accept': 'application/json',
+                        'Content-Type':'application/json'
+                                },
+                        body: JSON.stringify({
+                            sideA: sideA,
+                            sideB: sideB,
+                            sideC: sideC,
+                            type: type
+                        })                     
+                        
+                    })
+                    .then((data) => data.json())
+                    .then(data =>setTriangles(triangles.concat(data))
+                    )
+                    .catch(e=> console.log(e))
+
                 }
-            }
+            }          
             
-    
-
-
             return (
                 <>
             <form>
@@ -44,7 +55,7 @@ const Ejercicio1 = () =>{
                     triangles.map((value, index)=>{
                         return (
                             <p key={index}>
-                                {value}
+                                {value.type}
                             </p>
                         )
                     })
