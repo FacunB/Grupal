@@ -1,8 +1,9 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route,  Switch } from 'react-router-dom';
 
 import Ejercicio1 from './components/Ejercicio.jsx';
 import Ejercicio2 from './components/Ejercicio2.jsx';
+import Ejercicio3 from './components/Ejercicio3.jsx';
 import Main from './components/main.jsx'
 
 function App() {
@@ -16,7 +17,10 @@ function App() {
           </Route>
           <Route path="/ejercicio2" exact>
             <Ejercicio2></Ejercicio2>
-          </Route>            
+          </Route>   
+          <Route parth="/ejercicio3" exact>
+            <Ejercicio3></Ejercicio3>
+          </Route>         
         </Switch>
       </div>
 
