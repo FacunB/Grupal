@@ -26,30 +26,95 @@ router.get('/:id', function(req, res){
 
 let tasks = [
     {
-      "titulo": "Pasear al toby",
-      "prioridad": "prioridad-alta",
+      "task": "Pasear al toby",
+      "priority": "priority-high",
       "id": 0
     },
     {
-      "titulo": "Hacer preguntas en Slack",
-      "prioridad": "prioridad-alta",
+      "task": "Hacer preguntas en Slack",
+      "priority": "priority-low",
       "id": 1
     },
     {
-      "titulo": "Limpiar el cuarto",
-      "prioridad": "prioridad-media",
+      "task": "Limpiar el cuarto",
+      "priority": "priority-medium",
       "id": 2
     },
     {
-      "titulo": "Pasear al toby",
-      "prioridad": "prioridad-alta",
+      "task": "Pasear al toby",
+      "priority": "priority-high",
       "id": 3
     },
     {
-      "titulo": "Pasear al toby",
-      "prioridad": "prioridad-alta",
+      "task": "Pasear al toby",
+      "priority": "priority-high",
       "id": 4
-    }   
+    },
+    {
+      "task": "asdsada",
+      "priority": "priority-low",
+      "id": 6
+    },
+    {
+      "task": "Agregar un elemento",
+      "priority": "priority-medium",
+      "id": 7
+    },
+    {
+      "task": "sadasdas",
+      "priority": "priority-low",
+      "id": 8
+    },
+    {
+      "task": "dsadasdas",
+      "priority": "priority-low",
+      "id": 9
+    },
+    {
+      "task": "asdsadas",
+      "priority": "priority-medium",
+      "id": 10
+    },
+    {
+      "task": "dasdsad",
+      "priority": "priority-high",
+      "id": 11
+    },
+    {
+      "task": "asdasdsa",
+      "priority": "priority-medium",
+      "id": 12
+    },
+    {
+      "task": "sfdsfs",
+      "priority": "priority-low",
+      "id": 13
+    },
+    {
+      "task": "asdsada",
+      "priority": "priority-low",
+      "id": 14
+    },
+    {
+      "task": "asdas",
+      "priority": "priority-high",
+      "id": 15
+    },
+    {
+      "task": "sadsa",
+      "priority": "priority-low",
+      "id": 16
+    },
+    {
+      "task": "sadasd",
+      "priority": "priority-medium",
+      "id": 17
+    },
+    {
+      "task": "sadsad",
+      "priority": "priority-medium",
+      "id": 18
+    }
   ]
 
 
