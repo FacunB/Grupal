@@ -1,12 +1,40 @@
 const express = require('express');
 const router = express.Router();
+const { Client } = require('pg');
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
+const Task = require('../domain/task')
 
-router.get('/', (req, res) => {
-    res.send({
-        success:true,
-        tasks: tasks
-    });
-});
+const sequelize = new Sequelize(`postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:5432/${process.env.PGDATABASE}`) // Example for postgres
+
+
+
+router.get('/', async(req, response)=>{
+  
+  const config ={
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE
+  }
+
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
+  const client = new Client(config)
+  await client.connect()
+  const res = await client.query('SELECT * FROM tasks');
+  let tasks = res.rows 
+  await client.end()
+
+  response.send({
+      tasks: res.rows
+  })
+})
 
 router.get('/:id', function(req, res){
     console.log(req.params.id)
@@ -24,98 +52,76 @@ router.get('/:id', function(req, res){
     }
 });
 
-let tasks = [
-    {
-      "task": "Pasear al toby",
-      "priority": "priority-high",
-      "id": 0
-    },
-    {
-      "task": "Hacer preguntas en Slack",
-      "priority": "priority-low",
-      "id": 1
-    },
-    {
-      "task": "Limpiar el cuarto",
-      "priority": "priority-medium",
-      "id": 2
-    },
-    {
-      "task": "Pasear al toby",
-      "priority": "priority-high",
-      "id": 3
-    },
-    {
-      "task": "Pasear al toby",
-      "priority": "priority-high",
-      "id": 4
-    },
-    {
-      "task": "asdsada",
-      "priority": "priority-low",
-      "id": 6
-    },
-    {
-      "task": "Agregar un elemento",
-      "priority": "priority-medium",
-      "id": 7
-    },
-    {
-      "task": "sadasdas",
-      "priority": "priority-low",
-      "id": 8
-    },
-    {
-      "task": "dsadasdas",
-      "priority": "priority-low",
-      "id": 9
-    },
-    {
-      "task": "asdsadas",
-      "priority": "priority-medium",
-      "id": 10
-    },
-    {
-      "task": "dasdsad",
-      "priority": "priority-high",
-      "id": 11
-    },
-    {
-      "task": "asdasdsa",
-      "priority": "priority-medium",
-      "id": 12
-    },
-    {
-      "task": "sfdsfs",
-      "priority": "priority-low",
-      "id": 13
-    },
-    {
-      "task": "asdsada",
-      "priority": "priority-low",
-      "id": 14
-    },
-    {
-      "task": "asdas",
-      "priority": "priority-high",
-      "id": 15
-    },
-    {
-      "task": "sadsa",
-      "priority": "priority-low",
-      "id": 16
-    },
-    {
-      "task": "sadasd",
-      "priority": "priority-medium",
-      "id": 17
-    },
-    {
-      "task": "sadsad",
-      "priority": "priority-medium",
-      "id": 18
-    }
-  ]
+router.post('/', async(req, res)=>{
+  
+    const task = await Task.create(req.body)
+    res.send({Message: 'La tarea se ha agregado con exito', task: task});
+ 
+  // let task = req.body;
+  // let id = tasks.sort((a, b)=> b.id - a.id)[0].id + 1 || 1 ;
+  // task.id = id;
+  // tasks.push(task);
+  // res.send({
+  //   success: true,
+  //   message: `La tarea con id ${id} llegó good`,
+  //   task:task
+  //         });
+})
+
+router.delete('/:id',(req, res)=>{
+  tasks = tasks.filter(task => task.id != req.params.id);
+  res.send({
+    success: true,
+    message: `La tarea con id ${req.params.id} se borró bien`,
+    tasks:tasks
+          });
+
+});
+
+
+
+// let tasks = [
+//     {
+//       "task": "Pasear al toby",
+//       "priority": "priority-high",
+//       "id": 0
+//     },
+//     {
+//       "task": "Hacer preguntas en Slack",
+//       "priority": "priority-low",
+//       "id": 1
+//     },
+//     {
+//       "task": "Limpiar el cuarto",
+//       "priority": "priority-medium",
+//       "id": 2
+//     },
+//     {
+//       "task": "Pasear al toby",
+//       "priority": "priority-high",
+//       "id": 3
+//     },
+//     {
+//       "task": "Pasear al toby",
+//       "priority": "priority-high",
+//       "id": 4
+//     },
+//     {
+//       "task": "asdsada",
+//       "priority": "priority-low",
+//       "id": 6
+//     },
+//     {
+//       "task": "Agregar un elemento",
+//       "priority": "priority-medium",
+//       "id": 7
+//     },    
+//     {
+//       "task": "sadsad",
+//       "priority": "priority-medium",
+//       "id": 8
+//     }
+//   ]
 
 
 
